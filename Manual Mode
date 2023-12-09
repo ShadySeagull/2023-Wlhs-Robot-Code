@@ -1,0 +1,85 @@
+ package org.firstinspires.ftc.teamcode;
+
+//import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
+
+@TeleOp(name = "Manual Mode", group = "Team 13463 (WLHS)")
+
+public class ManualMode extends LinearOpMode {
+    public void runOpMode() {
+        //Update user on initalization
+        telemetry.addData("Status", "Initializing");
+        telemetry.update();
+        //mapping gamepad
+        double left_stick_x, left_stick_y, right_stick_x, right_stick_y;
+
+        //mapping Motors
+        DcMotor Left_Motor = hardwareMap.get(DcMotor.class, "M1");
+        DcMotor Right_Motor = hardwareMap.get(DcMotor.class, "M2");
+        DcMotor Lift_Motor1 = hardwareMap.get(DcMotor.class, "M3");
+        DcMotor Lift_Motor2 = hardwareMap.get(DcMotor.class, "M4");
+        DcMotor Plane_Motor = hardwareMap.get(DcMotor.class, "M5");
+
+        Servo Grabber = hardwareMap.get(Servo.class, "S1");
+        double grip_pos = 0.5;
+
+        //Setting power for all motors to 0
+        Right_Motor.setPower(0);
+        Left_Motor.setPower(0);
+
+        Lift_Motor1.setPower(0);
+        Lift_Motor2.setPower(0);
+
+        //updating user
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+
+        waitForStart();
+
+        while (opModeIsActive()) {
+            telemetry.addData("Status:", "Running");
+
+            //getting gamepad inputs
+            left_stick_x = gamepad1.left_stick_x;
+            left_stick_y = -gamepad1.left_stick_y;
+            right_stick_x = gamepad1.right_stick_x;
+            right_stick_y = -gamepad1.right_stick_y;
+
+            Right_Motor.setPower(Math.min(Math.max(left_stick_x - left_stick_y, -1), 1));
+            Left_Motor.setPower(Math.min(Math.max(left_stick_x + left_stick_y, - 1), 1));
+
+            Lift_Motor1.setPower(right_stick_x);
+            Lift_Motor2.setPower(right_stick_y / 2);
+
+            if (gamepad1.dpad_up)
+            {
+                Plane_Motor.setPower(-1);
+            }
+            else
+            {
+                Plane_Motor.setPower(0);
+            }
+
+            if (gamepad1.right_bumper)
+            {
+                grip_pos = 0.0;
+            }
+            else
+            {
+                grip_pos = 1.0;
+            }
+
+            Grabber.setPosition(grip_pos);
+
+            telemetry.addData("Left Grabber Input", gamepad1.left_bumper);
+            telemetry.addData("Right Grabber Input", gamepad1.right_bumper);
+            telemetry.addData("Grip_Position", grip_pos);
+            telemetry.update();
+        }
+    }
+}
