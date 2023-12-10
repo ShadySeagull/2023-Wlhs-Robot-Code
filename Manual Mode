@@ -30,9 +30,6 @@ public class ManualMode extends LinearOpMode {
         Servo Grabber = hardwareMap.get(Servo.class, "S1");
         double grip_pos = 0.5;
 
-        // debug class
-        tel = new Debug();
-
         //Setting power for all motors to 0
         Right_Motor.setPower(0);
         Left_Motor.setPower(0);
@@ -48,6 +45,7 @@ public class ManualMode extends LinearOpMode {
 
         while (opModeIsActive()) {
             telemetry.addData("Status:", "Running");
+            telemetry.update();
 
             //getting gamepad inputs
             left_stick_x = gamepad1.left_stick_x;
@@ -55,28 +53,20 @@ public class ManualMode extends LinearOpMode {
             right_stick_x = gamepad1.right_stick_x;
             right_stick_y = -gamepad1.right_stick_y;
 
+            //setting drive power
             Right_Motor.setPower(Math.min(Math.max(left_stick_x - left_stick_y, -1), 1));
             Left_Motor.setPower(Math.min(Math.max(left_stick_x + left_stick_y, - 1), 1));
 
+            //setting arm power
             Lift_Motor1.setPower(right_stick_x);
             Lift_Motor2.setPower(right_stick_y / 2);
 
-            if (gamepad1.dpad_up Plane_Motor.setPower(-1); else Plane_Motor.setPower(0);
+            //setting plane motor power
+            if (gamepad1.dpad_up) Plane_Motor.setPower(-1); else Plane_Motor.setPower(0);
 
-            if (gamepad1.right_bumper) grip_pos = Grabber.setPosition(MIN_POSITION); else  Grabber.setPosition(MAX_POSITION);
-
-            //tel.debug(); //comment/uncomment if you want debugging
+            //setting grabber to open or close
+            if (gamepad1.right_bumper) grip_pos = Servo.MIN_POSITION; else grip_pos = Servo.MAX_POSITION;
+            Grabber.setPosition(grip_pos);
         }
     }
-}
-
-public class Debug extends ManualMode
-{
-    public void debug()
-    {
-        telemetry.addData("Left Grabber Input", gamepad1.left_bumper);
-        telemetry.addData("Right Grabber Input", gamepad1.right_bumper);
-        telemetry.addData("Grip_Position", grip_pos);
-        telemetry.update();
-    } 
 }
