@@ -57,7 +57,7 @@ public class ManualMode extends LinearOpMode {
             Right_Motor.setPower(Math.min(Math.max(left_stick_x - left_stick_y, -1), 1));
 
             //setting arm power
-            if(gamepad1.A) Lift_Motor1.setPower(-1); else if(gamepad1.Y) Lift_Motor1.setPower(1); else Lift_Motor1.setPower(0);
+            if(gamepad1.a) Lift_Motor1.setPower(-1); else if(gamepad1.y) Lift_Motor1.setPower(1); else Lift_Motor1.setPower(0);
             Lift_Motor2.setPower(right_stick_y / 2);
 
             //setting plane motor power
