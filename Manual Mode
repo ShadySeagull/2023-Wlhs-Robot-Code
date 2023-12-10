@@ -12,21 +12,21 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class ManualMode extends LinearOpMode {
     public void runOpMode() {
-        // update user on initalization
+        //update user on initalization
         telemetry.addData("Status", "Initializing");
         telemetry.update();
 
-        // mapping gamepad
+        //mapping gamepad
         double left_stick_x, left_stick_y, right_stick_x, right_stick_y;
 
-        // mapping Motors
+        //mapping Motors
         DcMotor Left_Motor = hardwareMap.get(DcMotor.class, "M1");
         DcMotor Right_Motor = hardwareMap.get(DcMotor.class, "M2");
         DcMotor Lift_Motor1 = hardwareMap.get(DcMotor.class, "M3");
         DcMotor Lift_Motor2 = hardwareMap.get(DcMotor.class, "M4");
         DcMotor Plane_Motor = hardwareMap.get(DcMotor.class, "M5");
 
-        // grabber
+        //mapping grabber
         Servo Grabber = hardwareMap.get(Servo.class, "S1");
         double grip_pos = 0.5;
 
@@ -50,6 +50,7 @@ public class ManualMode extends LinearOpMode {
             //getting gamepad inputs
             left_stick_x = gamepad1.left_stick_x;
             left_stick_y = -gamepad1.left_stick_y;
+            
             right_stick_x = gamepad1.right_stick_x;
             right_stick_y = -gamepad1.right_stick_y;
 
