@@ -12,23 +12,26 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class ManualMode extends LinearOpMode {
     public void runOpMode() {
-        //Update user on initalization
+        // update user on initalization
         telemetry.addData("Status", "Initializing");
         telemetry.update();
-        //mapping gamepad
+
+        // mapping gamepad
         double left_stick_x, left_stick_y, right_stick_x, right_stick_y;
 
-        //mapping Motors
+        // mapping Motors
         DcMotor Left_Motor = hardwareMap.get(DcMotor.class, "M1");
         DcMotor Right_Motor = hardwareMap.get(DcMotor.class, "M2");
-
         DcMotor Lift_Motor1 = hardwareMap.get(DcMotor.class, "M3");
         DcMotor Lift_Motor2 = hardwareMap.get(DcMotor.class, "M4");
-
         DcMotor Plane_Motor = hardwareMap.get(DcMotor.class, "M5");
 
+        // grabber
         Servo Grabber = hardwareMap.get(Servo.class, "S1");
         double grip_pos = 0.5;
+
+        // debug class
+        tel = new Debug();
 
         //Setting power for all motors to 0
         Right_Motor.setPower(0);
@@ -62,10 +65,18 @@ public class ManualMode extends LinearOpMode {
 
             if (gamepad1.right_bumper) grip_pos = Grabber.setPosition(MIN_POSITION); else  Grabber.setPosition(MAX_POSITION);
 
-            telemetry.addData("Left Grabber Input", gamepad1.left_bumper);
-            telemetry.addData("Right Grabber Input", gamepad1.right_bumper);
-            telemetry.addData("Grip_Position", grip_pos);
-            telemetry.update();
+            //tel.debug(); //comment/uncomment if you want debugging
         }
     }
+}
+
+public class Debug extends ManualMode
+{
+    public void debug()
+    {
+        telemetry.addData("Left Grabber Input", gamepad1.left_bumper);
+        telemetry.addData("Right Grabber Input", gamepad1.right_bumper);
+        telemetry.addData("Grip_Position", grip_pos);
+        telemetry.update();
+    } 
 }
