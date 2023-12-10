@@ -1,1 +1,51 @@
+package org.firstinspires.ftc.teamcode;
 
+//import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
+
+@TeleOp(name = "Autonomous Mode", group = "Team 13463 (WLHS)")
+
+public class Autonomous Mode extends LinearOpMode {
+    public void runOpMode() {
+        //update user on initialization
+        telemetry.addData("Status", "Initializing");
+        telemetry.update();
+
+        //mapping Motors
+        DcMotor Left_Motor = hardwareMap.get(DcMotor.class, "M1");
+        DcMotor Right_Motor = hardwareMap.get(DcMotor.class, "M2");
+        DcMotor Lift_Motor1 = hardwareMap.get(DcMotor.class, "M3");
+        DcMotor Lift_Motor2 = hardwareMap.get(DcMotor.class, "M4");
+
+        //mapping grabber
+        Servo Grabber = hardwareMap.get(Servo.class, "S1");
+        double grip_pos = 0.5;
+
+        //Setting power for all motors to 0
+        Left_Motor.setPower(0);
+        Right_Motor.setPower(0);
+        Lift_Motor1.setPower(0);
+        Lift_Motor2.setPower(0);
+
+        //updating user
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+
+        waitForStart();
+
+        while (opModeIsActive()) {
+            telemetry.addData("Status:", "Running");
+            telemetry.update();
+
+            Left_Motor.setPower();
+            Right_Motor.setPower();
+
+            timeout(1);
+        }
+    }
+}
