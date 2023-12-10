@@ -17,7 +17,7 @@ public class ManualMode extends LinearOpMode {
         telemetry.update();
 
         //mapping gamepad
-        double left_stick_x, left_stick_y, right_stick_x, right_stick_y;
+        double left_stick_x, left_stick_y, right_stick_y, Lift_2_a, Lift_2_y;
 
         //mapping Motors
         DcMotor Left_Motor = hardwareMap.get(DcMotor.class, "M1");
@@ -31,9 +31,8 @@ public class ManualMode extends LinearOpMode {
         double grip_pos = 0.5;
 
         //Setting power for all motors to 0
-        Right_Motor.setPower(0);
         Left_Motor.setPower(0);
-
+        Right_Motor.setPower(0);
         Lift_Motor1.setPower(0);
         Lift_Motor2.setPower(0);
 
@@ -50,16 +49,15 @@ public class ManualMode extends LinearOpMode {
             //getting gamepad inputs
             left_stick_x = gamepad1.left_stick_x;
             left_stick_y = -gamepad1.left_stick_y;
-            
-            right_stick_x = gamepad1.right_stick_x;
+
             right_stick_y = -gamepad1.right_stick_y;
 
             //setting drive power
-            Right_Motor.setPower(Math.min(Math.max(left_stick_x - left_stick_y, -1), 1));
             Left_Motor.setPower(Math.min(Math.max(left_stick_x + left_stick_y, - 1), 1));
+            Right_Motor.setPower(Math.min(Math.max(left_stick_x - left_stick_y, -1), 1));
 
             //setting arm power
-            Lift_Motor1.setPower(right_stick_x);
+            if(gamepad1.A) Lift_Motor1.setPower(-1); else if(gamepad1.Y) Lift_Motor1.setPower(1); else Lift_Motor1.setPower(0);
             Lift_Motor2.setPower(right_stick_y / 2);
 
             //setting plane motor power
